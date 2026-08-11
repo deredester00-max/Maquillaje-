@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yanssy Daniela Aguilar Lopez | Beauty, Makeup & Fashion</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #faf5f7;
+      color: #333;
+      padding-bottom: 60px;
+    }
+
+    /* Encabezado y Navegación */
+    header {
+      background-color: #ffffff;
+      border-bottom: 2px solid #f2d6e1;
+      padding: 20px 10px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    header h1 {
+      font-size: 22px;
+      color: #8b3a52;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    header p {
+      font-size: 14px;
+      color: #b85b73;
+      font-weight: 600;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: bold;
+      color: #666;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 20px;
+      transition: all 0.3s;
+    }
+
+    nav button.active, nav button:hover {
+      background-color: #8b3a52;
+      color: white;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    /* Estructura de Secciones */
+    .page-section {
+      display: none;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    .section-title {
+      color: #8b3a52;
+      margin: 25px 0 10px 0;
+      font-size: 20px;
+      border-bottom: 2px solid #f0e2e7;
+      padding-bottom: 5px;
+    }
+
+    /* Grid de Productos */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid #f0e2e7;
+    }
+
+    .category {
+      font-size: 11px;
+      color: #b85b73;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .product-title {
+      font-size: 16px;
+      color: #333;
+      margin: 8px 0;
+    }
+
+    .price {
+      font-size: 18px;
+      color: #8b3a52;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .btn-add {
+      background-color: #8b3a52;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+      transition: background 0.2s;
+    }
+
+    .btn-add:hover {
+      background-color: #6e2d40;
+    }
+
+    /* Carrito / Checkout Flotante */
+    .cart-summary {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      margin-top: 30px;
+      border: 1px solid #f2d6e1;
+    }
+
+    .total-price {
+      font-size: 22px;
+      font-weight: bold;
+      color: #222;
+      margin-bottom: 10px;
+    }
+
+    .shipping-bar {
+      background-color: #f3e5e8;
+      color: #8b3a52;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .btn-action {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 10px;
+      transition: opacity 0.2s;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-whatsapp { background-color: #25d366; color: white; }
+    .btn-tiktok { background-color: #000000; color: white; }
+    .btn-action:hover { opacity: 0.9; }
+
+    /* Estilos de información */
+    .info-card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+      line-height: 1.6;
+    }
+
+    .info-card h2 {
+      color: #8b3a52;
+      margin-bottom: 15px;
+    }
+
+    .tiktok-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Encabezado -->
+  <header>
+    <h1>Yanssy Daniela Aguilar Lopez</h1>
+    <p>BEAUTY, MAKEUP & FASHION</p>
+    <nav>
+      <button id="btn-nav-inicio" class="nav-btn active" onclick="navegarA('inicio', 'btn-nav-inicio')">Inicio</button>
+      <button id="btn-nav-productos" class="nav-btn" onclick="navegarA('productos', 'btn-nav-productos')">Catálogo</button>
+      <button id="btn-nav-tiktok" class="nav-btn" onclick="navegarA('tiktok-sec', 'btn-nav-tiktok')">TikTok Videos</button>
+      <button id="btn-nav-nosotras" class="nav-btn" onclick="navegarA('nosotras', 'btn-nav-nosotras')">Nosotras</button>
+      <button id="btn-nav-contacto" class="nav-btn" onclick="navegarA('contacto', 'btn-nav-contacto')">Contacto</button>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <!-- SECCIÓN 1: INICIO -->
+    <section id="inicio" class="page-section active">
+      <div class="info-card" style="text-align: center;">
+        <h2>Bienvenidos a Nuestra Tienda</h2>
+        <p>Descubre la mejor selección de cosméticos, productos de belleza y prendas a la moda diseñadas para ti.</p>
+        <br>
+        <button class="btn-action btn-whatsapp" style="max-width: 200px; margin: 0 auto;" onclick="navegarA('productos', 'btn-nav-productos')">Ver Productos</button>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: CATÁLOGO DE PRODUCTOS (5 APARTADOS) -->
+    <section id="productos" class="page-section">
+      
+      <!-- APARTADO 1: MAQUILLAJE DE ROSTRO -->
+      <h2 class="section-title">1. Maquillaje de Rostro</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <div>
+            <div class="category">Rostro</div>
+            <h3 class="product-title">Fijador de Maquillaje Mate</h3>
+            <div class="price">$20.00</div>
+          </div>
+          <button class="btn-add" onclick="agregarAlCarrito('Fijador de Maquillaje Mate', 20.00)">Agregar al Carrito</button>
+        </div>
+
+        <div class="product-card">
+          <div>
+            <div class="category">Rostro</div>
+            <h3 class="product-title">Base de Maquillaje Cobertura Total</h3>
+            <div class="price">$18.00</div>
+          </div>
+          <button class="btn-add" onclick="agregarAlCarrito('Base Cobertura Total', 18.00)">Agregar al Carrito</button>
+        </div>
+      </div>
+
+      <!-- APARTADO 2: LABIOS -->
+      <h2 class="section-title">2. Labios</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <div>
+            <div class="category">Labios</div>
+            <h3 class="product-title">Labial Líquido Mate Larga Duración</h3>
+            <div class="price">$12.00</div>
+          </div>
+          <button class="btn-add" onclick="agregarAlCarrito('Labial Líquido Mate', 12.00)">Agregar al Carrito</button>
+        </div>
+
+        <div class="product-card">
+          <div>
+            <div class="category">Labios</div>
+            <h3 class="product-title">Brillo Labial Hidratante Gloss</h3>
+            <div class="price">$10.00</div>
+          </div>
+          <button class="btn-add" onclick="agregarAlCarrito('Gloss Hidratante', 10.00)">Agregar al Carrito</button>
+        </div>
+      </div>
+
+      <!-- APARTADO 3: OJOS Y CEJAS -->
+      <h2 class="section-title">3. Ojos & Cejas</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <div>
+            <div class="category">Ojos</div>
+            <h3 class="product-title">Paleta de Sombras Nude & Rose</h3>
+            <div class="price">$25.00</div>
+          </div>
+          <button class="btn-add" onclick="agregarAlCarrito('Paleta de Sombras Nude', 25.00)">Agregar al Carrito</button>
+        </div>
+
+        <div class="product-card">
+          <div>
+            <div class="category">Ojos</div>
+            <h3 class="product-title">Máscara de Pestañas Efecto Volumen</h3>
+            <div class="price">$14.00</div>
+          </div>
+          <button class="btn-add" onclick="agregarAlCarrito('Máscara de Pestañas', 14.00)">Agregar al Carrito</button>
+        </div>
+      </div>
+
+      <!-- APARTADO 4: ROPA Y BLUSAS -->
+      <h2 class="section-title">4. Ropa & Blusas</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <div>
+            <div class="category">Ropa</div>
+            <h3 class="product-title">Blusa Elegante de Seda</h3>
+            <div class="price">$22.00</div>
+          </div>
+          <button class="btn-add" onclick="agregarAlCarrito('Blusa Elegante de Seda', 22.00)">Agregar al Carrito</button>
+        </div>
+
+        <div class="product-card">
+          <div>
+            <div class="category">Ropa</div>
+            <h3 class="product-title">Top Casual de Algodón</h3>
+            <div class="price">$15.00</div>
+          </div>
+          <button class="btn-add" onclick="agregarAlCarrito('Top Casual', 15.00)">Agregar al Carrito</button>
+        </div>
+      </div>
+
+      <!-- APARTADO 5: VESTIDOS Y CONJUNTOS -->
+      <h2 class="section-title">5. Vestidos & Conjuntos</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <div>
+            <div class="category">Ropa</div>
+            <h3 class="product-title">Vestido Casual de Verano</h3>
+            <div class="price">$35.00</div>
+          </div>
+          <button class="btn-add" onclick="agregarAlCarrito('Vestido Casual', 35.00)">Agregar al Carrito</button>
+        </div>
+
+        <div class="product-card">
+          <div>
+            <div class="category">Ropa</div>
+            <h3 class="product-title">Conjunto Formal de 2 Piezas</h3>
+            <div class="price">$42.00</div>
+          </div>
+          <button class="btn-add" onclick="agregarAlCarrito('Conjunto Formal 2Pcs', 42.00)">Agregar al Carrito</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECCIÓN TIKTOK -->
+    <section id="tiktok-sec" class="page-section">
+      <div class="info-card" style="text-align: center;">
+        <h2>Tutoriales & Contenido en TikTok</h2>
+        <p>¡Mira nuestro contenido en video y aprende los mejores tips de maquillaje y outfits!</p>
+        
+        <div class="tiktok-container">
+          <!-- Reproductor embebido de TikTok -->
+          <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@y_d0607/video/7669725001276329224" data-video-id="7669725001276329224" style="max-width: 605px;min-width: 325px;">
+            <section>
+              <a target="_blank" title="@y_d0607" href="https://www.tiktok.com/@y_d0607?refer=embed">@y_d0607</a>
+            </section>
+          </blockquote>
+          <script async src="https://www.tiktok.com/embed.js"></script>
+        </div>
+
+        <br>
+        <a href="https://www.tiktok.com/@y_d0607" target="_blank" class="btn-action btn-tiktok" style="max-width: 250px; margin: 0 auto;">Ver Perfil @y_d0607</a>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 3: NOSOTRAS -->
+    <section id="nosotras" class="page-section">
+      <div class="info-card">
+        <h2>Sobre Yanssy Daniela Aguilar Lopez | Beauty, Makeup & Fashion</h2>
+        <p>Somos una marca dedicada a ofrecer productos de maquillaje de alta calidad y prendas a la moda para resaltar tu estilo natural y elegante. Nos apasiona brindar atención personalizada y garantizar que cada cliente encuentre exactamente lo que necesita.</p>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 4: CONTACTO -->
+    <section id="contacto" class="page-section">
+      <div class="info-card">
+        <h2>Contacto y Atención</h2>
+        <p><strong>Teléfono / WhatsApp:</strong> +504 9709-7165</p>
+        <p><strong>Ubicación:</strong> Honduras</p>
+        <p><strong>Horarios:</strong> Lunes a Sábado - 8:00 AM a 6:00 PM</p>
+      </div>
+    </section>
+
+    <!-- RESUMEN DEL CARRITO Y CHECKOUT -->
+    <div class="cart-summary">
+      <h3 style="margin-bottom: 10px; color: #333;">Resumen de tu Compra</h3>
+      <div class="total-price" id="totalTexto">Total: $0.00</div>
+      <div class="shipping-bar" id="shippingBar">Añade $50.00 más para envío gratis.</div>
+
+      <button class="btn-action btn-whatsapp" onclick="enviarPedidoPorWhatsApp()">Enviar pedido por WhatsApp</button>
+    </div>
+
+  </div>
+
+  <script>
+    const NUMERO_WHATSAPP = "50497097165";
+    let carrito = [];
+
+    // Navegación entre páginas/secciones
+    function navegarA(idSeccion, idBoton) {
+      document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+      const seccionDestino = document.getElementById(idSeccion);
+      if (seccionDestino) {
+        seccionDestino.classList.add('active');
+      }
+
+      if (idBoton) {
+        const botonActivo = document.getElementById(idBoton);
+        if (botonActivo) {
+          botonActivo.classList.add('active');
+        }
+      }
+    }
+
+    function obtenerTotal() {
+      return carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+    }
+
+    function actualizarInterfaz() {
+      const total = obtenerTotal();
+      document.getElementById("totalTexto").innerText = `Total: $${total.toFixed(2)}`;
+
+      const limiteGratis = 50.00;
+      const falta = limiteGratis - total;
+      const shippingBar = document.getElementById("shippingBar");
+
+      if (total === 0) {
+        shippingBar.innerText = "Agrega productos para calcular el envío gratis.";
+      } else if (falta > 0) {
+        shippingBar.innerText = `Añade $${falta.toFixed(2)} más para envío gratis.`;
+      } else {
+        shippingBar.innerText = "¡Enhorabuena! Tienes envío gratis.";
+      }
+    }
+
+    function agregarAlCarrito(nombre, precio) {
+      const itemExistente = carrito.find(item => item.nombre === nombre);
+      if (itemExistente) {
+        itemExistente.cantidad += 1;
+      } else {
+        carrito.push({ nombre, precio, cantidad: 1 });
+      }
+      actualizarInterfaz();
+      alert(`Se agregó "${nombre}" al carrito.`);
+    }
+
+    function obtenerTextoProductos() {
+      return carrito.map(item => `- ${item.nombre} x${item.cantidad} ($${(item.precio * item.cantidad).toFixed(2)})`).join("\n");
+    }
+
+    function enviarPedidoPorWhatsApp() {
+      if (carrito.length === 0) {
+        alert("El carrito está vacío. Agrega productos primero.");
+        return;
+      }
+
+      let mensaje = `*Nuevo Pedido - Yanssy Daniela Aguilar Lopez Beauty & Fashion*\n\n`;
+      mensaje += `*Productos:*\n${obtenerTextoProductos()}\n\n`;
+      mensaje += `*Total:* $${obtenerTotal().toFixed(2)}`;
+
+      const urlWhatsApp = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+      window.open(urlWhatsApp, "_blank");
+    }
+
+    actualizarInterfaz();
+  </script>
+</body>
+</html>
