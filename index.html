@@ -62,7 +62,7 @@
             color: #38bdf8;
         }
 
-        /* --- SECCIÓN HERO (PRESENTACIÓN) --- */
+        /* --- SECCIÓN HERO --- */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -116,6 +116,25 @@
             background-color: #0284c7;
             color: #ffffff;
             transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            background-color: transparent;
+            color: #38bdf8;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid #38bdf8;
+            margin-top: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #38bdf8;
+            color: #0f172a;
         }
 
         /* --- SECCIONES COMUNES --- */
@@ -188,6 +207,10 @@
 
         .project-info {
             padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
         }
 
         .project-info h3 {
@@ -244,7 +267,6 @@
 </head>
 <body>
 
-    <!-- BARRA NAVEGACIÓN -->
     <header>
         <nav>
             <a href="#" class="logo">&lt;Angel /&gt;</a>
@@ -257,7 +279,6 @@
         </nav>
     </header>
 
-    <!-- INICIO / HERO -->
     <section class="hero">
         <div class="hero-content">
             <span class="badge">Desarrollador Web Frontend</span>
@@ -267,7 +288,6 @@
         </div>
     </section>
 
-    <!-- SOBRE MÍ -->
     <section id="about">
         <h2 class="section-title">Sobre Mí</h2>
         <p style="text-align: center; max-width: 700px; margin: 0 auto; color: #94a3b8;">
@@ -275,7 +295,6 @@
         </p>
     </section>
 
-    <!-- HABILIDADES -->
     <section id="skills">
         <h2 class="section-title">Habilidades Técnicas</h2>
         <div class="skills-grid">
@@ -288,55 +307,62 @@
         </div>
     </section>
 
-    <!-- PROYECTOS -->
     <section id="projects">
         <h2 class="section-title">Proyectos Destacados</h2>
         <div class="projects-grid">
             
-            <!-- Proyecto 1: Honduras Express -->
+            <!-- PROYECTO 1: HONDURAS EXPRESS -->
             <div class="project-card">
                 <div class="project-info">
-                    <h3>Honduras Express (E-Commerce)</h3>
-                    <p>Plataforma web para pedidos express con selector de sucursales (Quimistán, San Pedro Sula, Cortés, Villanueva), carrusel slider interactivo, catálogo categorizado y carrito integrado.</p>
-                    <div class="tags">
-                        <span class="tag">HTML5</span>
-                        <span class="tag">CSS3</span>
-                        <span class="tag">JavaScript</span>
-                        <span class="tag">E-Commerce</span>
+                    <div>
+                        <h3>Honduras Express (E-Commerce)</h3>
+                        <p>Plataforma web para pedidos express con selector de sucursales (Quimistán, San Pedro Sula, Cortés, Villanueva), carrusel slider interactivo, catálogo categorizado y carrito integrado.</p>
+                        <div class="tags">
+                            <span class="tag">HTML5</span>
+                            <span class="tag">CSS3</span>
+                            <span class="tag">JavaScript</span>
+                            <span class="tag">E-Commerce</span>
+                        </div>
                     </div>
+                    <a href="honduras-express.html" target="_blank" class="btn-secondary">Ver Proyecto Demo ↗</a>
                 </div>
             </div>
 
-            <!-- Proyecto 2: Storefront de Maquillaje y Ropa -->
+            <!-- PROYECTO 2 -->
             <div class="project-card">
                 <div class="project-info">
-                    <h3>Storefront de Maquillaje y Ropa</h3>
-                    <p>Catálogo web de belleza y moda con carrito de compras funcional, reserva de productos y métodos de pedido mediante WhatsApp y correo electrónico.</p>
-                    <div class="tags">
-                        <span class="tag">HTML/CSS</span>
-                        <span class="tag">JavaScript</span>
-                        <span class="tag">Carrito de Compras</span>
+                    <div>
+                        <h3>Storefront de Maquillaje y Ropa</h3>
+                        <p>Catálogo web de belleza y moda con carrito de compras funcional, reserva de productos y métodos de pedido mediante WhatsApp y correo electrónico.</p>
+                        <div class="tags">
+                            <span class="tag">HTML/CSS</span>
+                            <span class="tag">JavaScript</span>
+                            <span class="tag">Carrito de Compras</span>
+                        </div>
                     </div>
+                    <a href="#" target="_blank" class="btn-secondary">Ver Proyecto Demo ↗</a>
                 </div>
             </div>
 
-            <!-- Proyecto 3: Portafolio Personal / Perfil Dev -->
+            <!-- PROYECTO 3 -->
             <div class="project-card">
                 <div class="project-info">
-                    <h3>Portafolio Web Profesional</h3>
-                    <p>Sitio web personal con diseño en modo oscuro responsivo, maquetado con HTML/CSS/JS y preparado para despliegue en GitHub Pages / Netlify.</p>
-                    <div class="tags">
-                        <span class="tag">Frontend</span>
-                        <span class="tag">Responsive Design</span>
-                        <span class="tag">GitHub / Netlify</span>
+                    <div>
+                        <h3>Portafolio Web Profesional</h3>
+                        <p>Sitio web personal con diseño en modo oscuro responsivo, maquetado con HTML/CSS/JS y preparado para despliegue en GitHub Pages / Netlify.</p>
+                        <div class="tags">
+                            <span class="tag">Frontend</span>
+                            <span class="tag">Responsive Design</span>
+                            <span class="tag">GitHub / Netlify</span>
+                        </div>
                     </div>
+                    <a href="#" class="btn-secondary">Sitio Actual</a>
                 </div>
             </div>
 
         </div>
     </section>
 
-    <!-- CONTACTO -->
     <section id="contact">
         <h2 class="section-title">Contacto</h2>
         <div class="contact-box">
