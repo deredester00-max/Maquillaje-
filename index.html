@@ -74,6 +74,7 @@
             z-index: 999;
             text-align: center;
             padding: 25px;
+            transition: opacity 0.4s ease;
         }
 
         #start-overlay h2 {
@@ -516,12 +517,11 @@ Niña preciosa, ¡que tengas un bonito día!</div>
             const audio = document.getElementById('bg-music');
             
             overlay.style.opacity = '0';
-            overlay.style.transition = 'opacity 0.4s ease';
             
             setTimeout(() => { overlay.style.display = 'none'; }, 400);
 
             if (audio) {
-                audio.play().catch(e => console.log(e));
+                audio.play().catch(e => console.log('Autoplay prevenido:', e));
             }
         }
 
@@ -555,6 +555,8 @@ Niña preciosa, ¡que tengas un bonito día!</div>
         // 4. PLANETA 3D DE FLORES Y FRASES INTERACTIVO
         function initPlanet3D() {
             const container = document.getElementById('planet-container');
+            if (!container) return;
+
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -565,9 +567,9 @@ Niña preciosa, ¡que tengas un bonito día!</div>
             const planetGroup = new THREE.Group();
             scene.add(planetGroup);
 
-            // Núcleo brillante
+            // Núcleo brillante (CORREGIDO: se agregaron comillas al color '#ffd700')
             const coreGeo = new THREE.SphereGeometry(1.8, 32, 32);
-            const coreMat = new THREE.MeshBasicMaterial({ color: #ffd700, wireframe: false });
+            const coreMat = new THREE.MeshBasicMaterial({ color: '#ffd700', wireframe: false });
             const core = new THREE.Mesh(coreGeo, coreMat);
             planetGroup.add(core);
 
@@ -590,7 +592,6 @@ Niña preciosa, ¡que tengas un bonito día!</div>
                 const spriteMat = new THREE.SpriteMaterial({ map: texture, transparent: true });
                 const sprite = new THREE.Sprite(spriteMat);
 
-                // Posicionar en forma de esfera orbital
                 const phi = Math.acos(-1 + (2 * i) / phrases.length);
                 const theta = Math.sqrt(phrases.length * Math.PI) * phi;
                 const radius = 3.8;
@@ -606,7 +607,6 @@ Niña preciosa, ¡que tengas un bonito día!</div>
 
             camera.position.z = 7;
 
-            // Arrastrar con el dedo / ratón para girar
             let isDragging = false;
             let previousMousePosition = { x: 0, y: 0 };
 
@@ -679,10 +679,11 @@ Niña preciosa, ¡que tengas un bonito día!</div>
 
         // 7. DIBUJO DE GIRASOLES
         const canvas = document.getElementById('flowerCanvas');
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas ? canvas.getContext('2d') : null;
         let angle = 0;
 
         function drawSingleSunflower(x, y, scale) {
+            if (!ctx) return;
             ctx.save();
             ctx.translate(x, y);
             ctx.scale(scale, scale);
@@ -723,6 +724,7 @@ Niña preciosa, ¡que tengas un bonito día!</div>
         }
 
         function animateGarden() {
+            if (!ctx) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawSingleSunflower(75, 120, 0.65);
             drawSingleSunflower(245, 120, 0.65);
@@ -731,7 +733,8 @@ Niña preciosa, ¡que tengas un bonito día!</div>
             requestAnimationFrame(animateGarden);
         }
 
-        animateGarden();
+        if (canvas) animateGarden();
     </script>
 </body>
 </html>
+
