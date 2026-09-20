@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para Yanssy Daniela 🌻💄</title>
+    <!-- Librería para el efecto 3D del Planeta -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -41,6 +43,20 @@
         @keyframes cascadeFall {
             0% { transform: translate3d(0, 0, 0) rotate(0deg); }
             100% { transform: translate3d(0, 110vh, 0) rotate(360deg); }
+        }
+
+        /* Estrellas al tocar la pantalla */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 20px;
+            z-index: 9999;
+            animation: popSparkle 0.8s ease-out forwards;
+        }
+
+        @keyframes popSparkle {
+            0% { opacity: 1; transform: scale(0.5) translate(0, 0); }
+            100% { opacity: 0; transform: scale(1.5) translate(var(--tx), var(--ty)); }
         }
 
         /* Overlay de Bienvenida */
@@ -110,7 +126,21 @@
             color: #c2185b;
             font-size: 1rem;
             font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        /* Flecha Animada Visibly */
+        .arrow-down {
+            font-size: 1.8rem;
+            color: #ff4081;
+            animation: bounceArrow 1.2s infinite;
             margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
         }
 
         /* Saludo Dinámico por Hora */
@@ -118,11 +148,41 @@
             background: #fff0f5;
             border-radius: 12px;
             padding: 12px;
-            margin: 15px 0;
+            margin: 10px 0 15px 0;
             border: 1px dashed #ff4081;
             color: #880e4f;
             font-size: 0.95rem;
             line-height: 1.4;
+        }
+
+        /* PLANETA 3D INTERACTIVO DE FRASES Y FLORES */
+        .planet-section {
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .planet-title {
+            color: #d81b60;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .planet-hint {
+            font-size: 0.8rem;
+            color: #880e4f;
+            margin-bottom: 10px;
+        }
+
+        #planet-container {
+            width: 100%;
+            height: 280px;
+            background: radial-gradient(circle, #2d0b1e 0%, #12030a 100%);
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+            touch-action: none;
+            box-shadow: inset 0 0 15px rgba(255, 105, 180, 0.3);
         }
 
         /* Contador de Tiempo */
@@ -173,10 +233,41 @@
             margin: 5px 0;
         }
 
-        canvas {
+        canvas.flower-canvas {
             background: transparent;
             max-width: 100%;
             height: auto;
+        }
+
+        /* Minijuego de los Cachetitos */
+        .game-card {
+            background: #fff0f5;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 18px 0;
+            border: 1.5px solid #ffccd5;
+        }
+
+        .game-title {
+            color: #d81b60;
+            font-size: 1.05rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        #cachetitos-note {
+            font-size: 0.95rem;
+            color: #4a0e17;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            background: #fff;
+            border-radius: 10px;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px dashed #ff4081;
         }
 
         /* Galería */
@@ -307,11 +398,26 @@
 
     <div class="container">
         <h1>Para Yanssy Daniela 🌻💖</h1>
-        <div class="subtitle">Sigue bajando mi amor bonito 👇✨</div>
+        <div class="subtitle">Sigue bajando mi amor bonito</div>
+        <div class="arrow-down">👇✨</div>
 
-        <!-- Saludo dinámico detectando hora de Honduras -->
-        <div id="honduras-greeting" class="time-greeting">
+        <!-- Saludo dinámico detectando la hora -->
+        <div id="time-greeting" class="time-greeting">
             Cargando mensaje especial...
+        </div>
+
+        <!-- PLANETA 3D DE FLORES Y FRASES -->
+        <div class="planet-section">
+            <div class="planet-title">Planeta de Flores y Frases 🪐🌻</div>
+            <div class="planet-hint">Mueve con tu dedo para girar el universo ✨</div>
+            <div id="planet-container"></div>
+        </div>
+
+        <!-- MINIJUEGO CACHETITOS BONITOS -->
+        <div class="game-card">
+            <div class="game-title">Minijuego: Tocador de Cachetitos 🌸😊</div>
+            <div id="cachetitos-note">Presiona el botón para descubrir una nota especial ✨</div>
+            <button class="action-btn" onclick="nextCachetitosNote()">¡Tocar cachetitos bonitos! 🌻</button>
         </div>
 
         <!-- Reloj / Cronómetro de Noviazgo -->
@@ -325,7 +431,7 @@
         <div class="timer-note">Sin contar todo el hermoso tiempo que llevo conociéndote desde mucho antes. ¡Loviu baby! 🥰✨</div>
 
         <div class="sunflower-box">
-            <canvas id="flowerCanvas" width="320" height="240"></canvas>
+            <canvas id="flowerCanvas" class="flower-canvas" width="320" height="240"></canvas>
         </div>
 
         <!-- Razones por las que te amo -->
@@ -386,6 +492,25 @@ Niña preciosa, ¡que tengas un bonito día!</div>
     </div>
 
     <script>
+        // 1. EFECTO DE ESTRELLAS Y DESTELLOS AL TOCAR LA PANTALLA
+        document.addEventListener('pointerdown', (e) => {
+            for (let i = 0; i < 4; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.innerText = ['✨', '⭐', '🌟', '💖', '🌻'][Math.floor(Math.random() * 5)];
+                sparkle.style.left = e.clientX + 'px';
+                sparkle.style.top = e.clientY + 'px';
+                
+                const tx = (Math.random() - 0.5) * 80 + 'px';
+                const ty = (Math.random() - 0.5) * 80 + 'px';
+                sparkle.style.setProperty('--tx', tx);
+                sparkle.style.setProperty('--ty', ty);
+                
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 800);
+            }
+        });
+
         function startExperience() {
             const overlay = document.getElementById('start-overlay');
             const audio = document.getElementById('bg-music');
@@ -400,18 +525,123 @@ Niña preciosa, ¡que tengas un bonito día!</div>
             }
         }
 
-        // Detectar Hora exacta en Honduras (GMT-6)
-        function checkHondurasTime() {
+        // 2. DETECTAR HORA
+        function checkTime() {
             const options = { timeZone: 'America/Tegucigalpa', hour: '2-digit', minute: '2-digit', hour12: true };
             const timeString = new Date().toLocaleTimeString('es-HN', options);
             
-            const greetingElement = document.getElementById('honduras-greeting');
-            greetingElement.innerHTML = `📍 Estoy viendo que entraste a las <b>${timeString}</b> (hora de Honduras).<br>Y exactamente en este momento, <b>¡quiero decirte que te amo mi amor hermoso! 💖✨</b>`;
+            const greetingElement = document.getElementById('time-greeting');
+            greetingElement.innerHTML = `📍 Estoy viendo que entraste a las <b>${timeString}</b>.<br>Y exactamente en este momento, <b>¡quiero decirte que te amo mi amor hermoso! 💖✨</b>`;
         }
-        checkHondurasTime();
+        checkTime();
 
-        // Cronómetro desde el 23 de abril de 2026 a las 04:26 AM
-        const startDate = new Date('2026-04-23T04:26:00-06:00'); // Hora de Honduras
+        // 3. MINIJUEGO DE LOS CACHETITOS BONITOS
+        const cachetitosPhrases = [
+            "Tus cachetitos bonitos son los más apachurrabiles del mundo 🥰",
+            "Amo cuando sonríes y tus cachetitos se ponen tan tiernos 🌸",
+            "¡Un besito enorme en cada uno de tus cachetitos hermosos! 💋",
+            "Tienes la cara más hermosa y los cachetitos más bellos del universo ✨",
+            "Esos cachetitos bonitos merecen todas las flores amarillas del mundo 🌻💖"
+        ];
+        let cachetitosIndex = 0;
+
+        function nextCachetitosNote() {
+            const noteEl = document.getElementById('cachetitos-note');
+            cachetitosIndex = (cachetitosIndex + 1) % cachetitosPhrases.length;
+            noteEl.innerText = cachetitosPhrases[cachetitosIndex];
+            sendVirtualHug();
+        }
+
+        // 4. PLANETA 3D DE FLORES Y FRASES INTERACTIVO
+        function initPlanet3D() {
+            const container = document.getElementById('planet-container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            const planetGroup = new THREE.Group();
+            scene.add(planetGroup);
+
+            // Núcleo brillante
+            const coreGeo = new THREE.SphereGeometry(1.8, 32, 32);
+            const coreMat = new THREE.MeshBasicMaterial({ color: #ffd700, wireframe: false });
+            const core = new THREE.Mesh(coreGeo, coreMat);
+            planetGroup.add(core);
+
+            // Frases y Flores flotando alrededor
+            const phrases = ["🌻", "Luz en mi vida", "Eres Luz", "Mi flor favorita", "Feliz día", "Te amo", "Niña hermosa", "🌻", "Cachetitos bonitos", "Sonríe siempre", "Eres mi universo", "🌻"];
+
+            phrases.forEach((text, i) => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 256;
+                canvas.height = 64;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#ffe6f0';
+                ctx.font = 'Bold 22px Arial';
+                ctx.textAlign = 'center';
+                ctx.shadowColor = '#ff4081';
+                ctx.shadowBlur = 8;
+                ctx.fillText(text, 128, 40);
+
+                const texture = new THREE.CanvasTexture(canvas);
+                const spriteMat = new THREE.SpriteMaterial({ map: texture, transparent: true });
+                const sprite = new THREE.Sprite(spriteMat);
+
+                // Posicionar en forma de esfera orbital
+                const phi = Math.acos(-1 + (2 * i) / phrases.length);
+                const theta = Math.sqrt(phrases.length * Math.PI) * phi;
+                const radius = 3.8;
+
+                sprite.position.set(
+                    radius * Math.cos(theta) * Math.sin(phi),
+                    radius * Math.sin(theta) * Math.sin(phi),
+                    radius * Math.cos(phi)
+                );
+                sprite.scale.set(2.2, 0.6, 1);
+                planetGroup.add(sprite);
+            });
+
+            camera.position.z = 7;
+
+            // Arrastrar con el dedo / ratón para girar
+            let isDragging = false;
+            let previousMousePosition = { x: 0, y: 0 };
+
+            container.addEventListener('pointerdown', (e) => {
+                isDragging = true;
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+
+            window.addEventListener('pointermove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - previousMousePosition.x;
+                const deltaY = e.clientY - previousMousePosition.y;
+
+                planetGroup.rotation.y += deltaX * 0.008;
+                planetGroup.rotation.x += deltaY * 0.008;
+
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+
+            window.addEventListener('pointerup', () => { isDragging = false; });
+
+            function animatePlanet() {
+                requestAnimationFrame(animatePlanet);
+                if (!isDragging) {
+                    planetGroup.rotation.y += 0.004;
+                }
+                renderer.render(scene, camera);
+            }
+            animatePlanet();
+        }
+
+        window.addEventListener('load', initPlanet3D);
+
+        // 5. CRONÓMETRO DE NOVIAZGO
+        const startDate = new Date('2026-04-23T04:26:00-06:00');
 
         function updateTimer() {
             const now = new Date();
@@ -432,22 +662,22 @@ Niña preciosa, ¡que tengas un bonito día!</div>
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // Lluvia de Abrazos Virtuales
+        // 6. LLUVIA DE ABRAZOS VIRTUALES
         function sendVirtualHug() {
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 12; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'falling-item fg';
-                heart.innerText = ['💖', '🤗', '✨', '🌸', '💋'][Math.floor(Math.random() * 5)];
+                heart.innerText = ['💖', '🤗', '✨', '🌸', '💋', '🌻'][Math.floor(Math.random() * 6)];
                 heart.style.left = Math.random() * 90 + '%';
                 heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                heart.style.fontSize = '32px';
+                heart.style.fontSize = '30px';
                 document.body.appendChild(heart);
 
                 setTimeout(() => { heart.remove(); }, 3000);
             }
         }
 
-        // Animación Girasol
+        // 7. DIBUJO DE GIRASOLES
         const canvas = document.getElementById('flowerCanvas');
         const ctx = canvas.getContext('2d');
         let angle = 0;
@@ -505,4 +735,3 @@ Niña preciosa, ¡que tengas un bonito día!</div>
     </script>
 </body>
 </html>
-
