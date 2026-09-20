@@ -25,7 +25,7 @@
             position: relative;
         }
 
-        /* Cascada Optimizada para Móvil */
+        /* Cascada Optimizada */
         .falling-item {
             position: fixed;
             top: -50px;
@@ -35,26 +35,15 @@
             animation: cascadeFall linear infinite;
         }
 
-        .falling-item.bg {
-            z-index: 1;
-            opacity: 0.65;
-        }
-
-        .falling-item.fg {
-            z-index: 100;
-            opacity: 0.95;
-        }
+        .falling-item.bg { z-index: 1; opacity: 0.65; }
+        .falling-item.fg { z-index: 100; opacity: 0.95; }
 
         @keyframes cascadeFall {
-            0% {
-                transform: translate3d(0, 0, 0) rotate(0deg);
-            }
-            100% {
-                transform: translate3d(0, 110vh, 0) rotate(360deg);
-            }
+            0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+            100% { transform: translate3d(0, 110vh, 0) rotate(360deg); }
         }
 
-        /* Pantalla de Bienvenida */
+        /* Overlay de Bienvenida */
         #start-overlay {
             position: fixed;
             top: 0;
@@ -115,13 +104,66 @@
             color: #d81b60;
             font-size: 1.7rem;
             margin-bottom: 4px;
-            word-wrap: break-word;
         }
 
         .subtitle {
             color: #c2185b;
             font-size: 1rem;
             font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Saludo Dinámico por Hora */
+        .time-greeting {
+            background: #fff0f5;
+            border-radius: 12px;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px dashed #ff4081;
+            color: #880e4f;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* Contador de Tiempo */
+        .timer-title {
+            color: #d81b60;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .timer-box {
+            display: flex;
+            justify-style: space-around;
+            background: linear-gradient(135deg, #fff2f6, #ffe6ed);
+            border-radius: 12px;
+            padding: 12px 5px;
+            margin: 10px 0 5px 0;
+            border: 1px solid #ffb6c1;
+        }
+
+        .timer-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .timer-num {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #d81b60;
+        }
+
+        .timer-label {
+            font-size: 0.75rem;
+            color: #7a1c31;
+        }
+
+        .timer-note {
+            font-size: 0.85rem;
+            color: #6a1b29;
+            font-style: italic;
             margin-bottom: 15px;
         }
 
@@ -137,7 +179,7 @@
             height: auto;
         }
 
-        /* Galería Responsiva */
+        /* Galería */
         .gallery-title {
             color: #c2185b;
             font-size: 1.1rem;
@@ -167,7 +209,43 @@
             object-fit: cover;
         }
 
-        /* Carta de Dedicatoria */
+        /* Razones Acordeón */
+        .reasons-box {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .reasons-title {
+            text-align: center;
+            color: #d81b60;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        details {
+            background: #fff0f3;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            border: 1px solid #ffccd5;
+            cursor: pointer;
+        }
+
+        summary {
+            font-weight: bold;
+            color: #c2185b;
+            outline: none;
+        }
+
+        details p {
+            margin-top: 8px;
+            color: #4a0e17;
+            font-size: 0.92rem;
+            line-height: 1.4;
+        }
+
+        /* Dedicatoria */
         .dedication {
             font-size: 0.95rem;
             line-height: 1.5;
@@ -182,15 +260,27 @@
             font-weight: 500;
         }
 
+        /* Botón Abrazo Virtual */
+        .action-btn {
+            background: linear-gradient(45deg, #ff4081, #ff80ab);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px 0;
+            width: 100%;
+            box-shadow: 0 4px 10px rgba(255, 64, 129, 0.3);
+        }
+
         .music-player {
-            margin-top: 12px;
+            margin-top: 15px;
             width: 100%;
         }
 
-        audio {
-            width: 100%;
-            border-radius: 15px;
-        }
+        audio { width: 100%; border-radius: 15px; }
     </style>
 </head>
 <body>
@@ -202,14 +292,13 @@
         <button id="start-btn" onclick="startExperience()">Abrir Detalle 🌻✨</button>
     </div>
 
-    <!-- CASCADA FLUIDA (Fondo) -->
+    <!-- Cascada Fluida -->
     <div class="falling-item bg" style="left: 4%; animation-duration: 7s; font-size: 22px;">🌻</div>
     <div class="falling-item bg" style="left: 20%; animation-duration: 8.5s; animation-delay: 1s; font-size: 20px;">💄</div>
     <div class="falling-item bg" style="left: 40%; animation-duration: 7.5s; animation-delay: 2s; font-size: 22px;">🌼</div>
     <div class="falling-item bg" style="left: 65%; animation-duration: 8s; animation-delay: 0.5s; font-size: 20px;">💅</div>
     <div class="falling-item bg" style="left: 85%; animation-duration: 7s; animation-delay: 1.5s; font-size: 24px;">🌻</div>
 
-    <!-- CASCADA FLUIDA (Frente) -->
     <div class="falling-item fg" style="left: 10%; animation-duration: 6s; animation-delay: 0.3s; font-size: 28px;">🌻</div>
     <div class="falling-item fg" style="left: 30%; animation-duration: 6.8s; animation-delay: 1.5s; font-size: 25px;">💄</div>
     <div class="falling-item fg" style="left: 50%; animation-duration: 5.8s; animation-delay: 0.8s; font-size: 26px;">🎨</div>
@@ -220,10 +309,46 @@
         <h1>Para Yanssy Daniela 🌻💖</h1>
         <div class="subtitle">Sigue bajando mi amor bonito 👇✨</div>
 
-        <div class="sunflower-box">
-            <canvas id="flowerCanvas" width="320" height="260"></canvas>
+        <!-- Saludo dinámico detectando hora de Honduras -->
+        <div id="honduras-greeting" class="time-greeting">
+            Cargando mensaje especial...
         </div>
 
+        <!-- Reloj / Cronómetro de Noviazgo -->
+        <div class="timer-title">Tiempo Oficial de Noviazgo ⏳💖</div>
+        <div class="timer-box">
+            <div class="timer-unit"><span id="days" class="timer-num">0</span><span class="timer-label">Días</span></div>
+            <div class="timer-unit"><span id="hours" class="timer-num">0</span><span class="timer-label">Horas</span></div>
+            <div class="timer-unit"><span id="minutes" class="timer-num">0</span><span class="timer-label">Minutos</span></div>
+            <div class="timer-unit"><span id="seconds" class="timer-num">0</span><span class="timer-label">Segundos</span></div>
+        </div>
+        <div class="timer-note">Sin contar todo el hermoso tiempo que llevo conociéndote desde mucho antes. ¡Loviu baby! 🥰✨</div>
+
+        <div class="sunflower-box">
+            <canvas id="flowerCanvas" width="320" height="240"></canvas>
+        </div>
+
+        <!-- Razones por las que te amo -->
+        <div class="reasons-box">
+            <div class="reasons-title">Razones por las que te amo 📝❤️</div>
+            
+            <details>
+                <summary>Razón #1 💖</summary>
+                <p>Tus ojitos bonitos. Tienen una mirada tan pura y especial que ilumina todo a su alrededor y me enamora cada día más.</p>
+            </details>
+
+            <details>
+                <summary>Razón #2 ✨</summary>
+                <p>Cómo iluminas mis días. Con tu presencia, tus mensajes y tu cariño logras hacerme sonreír sin importar qué tan pesado sea el día.</p>
+            </details>
+
+            <details>
+                <summary>Razón #3 👩‍⚕️🩺</summary>
+                <p>La doctora que cura mi corazón. Eres mi refugio de paz, la persona que sana cualquier tristeza y la mejor compañera de vida.</p>
+            </details>
+        </div>
+
+        <!-- Galería de Fotos -->
         <div class="gallery-title">Tu sonrisa y belleza 📸✨</div>
         <div class="gallery">
             <div class="photo-card">
@@ -240,6 +365,7 @@
             </div>
         </div>
 
+        <!-- Carta de Dedicatoria -->
         <div class="dedication">En este día no fue posible darte presencial tus flores amarillas por la posición geográfica.
 Mas eso no quiere decir que no haría lo posible para hacerte presencia con las flores que te gustan.
 
@@ -247,6 +373,9 @@ Aquí dejo un detalle que para muchos podría ser muy sencillo, mas yo te digo c
 
 Te amo mi amor 💖
 Niña preciosa, ¡que tengas un bonito día!</div>
+
+        <!-- Botón de Abrazo Virtual -->
+        <button class="action-btn" onclick="sendVirtualHug()">¡Recibir un abrazo virtual! 🤗💖</button>
 
         <div class="music-player">
             <audio id="bg-music" controls loop>
@@ -264,16 +393,61 @@ Niña preciosa, ¡que tengas un bonito día!</div>
             overlay.style.opacity = '0';
             overlay.style.transition = 'opacity 0.4s ease';
             
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 400);
+            setTimeout(() => { overlay.style.display = 'none'; }, 400);
 
             if (audio) {
                 audio.play().catch(e => console.log(e));
             }
         }
 
-        // DIBUJO OPTIMIZADO
+        // Detectar Hora exacta en Honduras (GMT-6)
+        function checkHondurasTime() {
+            const options = { timeZone: 'America/Tegucigalpa', hour: '2-digit', minute: '2-digit', hour12: true };
+            const timeString = new Date().toLocaleTimeString('es-HN', options);
+            
+            const greetingElement = document.getElementById('honduras-greeting');
+            greetingElement.innerHTML = `📍 Estoy viendo que entraste a las <b>${timeString}</b> (hora de Honduras).<br>Y exactamente en este momento, <b>¡quiero decirte que te amo mi amor hermoso! 💖✨</b>`;
+        }
+        checkHondurasTime();
+
+        // Cronómetro desde el 23 de abril de 2026 a las 04:26 AM
+        const startDate = new Date('2026-04-23T04:26:00-06:00'); // Hora de Honduras
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((diff / 1000 / 60) % 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+
+                document.getElementById('days').innerText = days;
+                document.getElementById('hours').innerText = hours;
+                document.getElementById('minutes').innerText = minutes;
+                document.getElementById('seconds').innerText = seconds;
+            }
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // Lluvia de Abrazos Virtuales
+        function sendVirtualHug() {
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'falling-item fg';
+                heart.innerText = ['💖', '🤗', '✨', '🌸', '💋'][Math.floor(Math.random() * 5)];
+                heart.style.left = Math.random() * 90 + '%';
+                heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                heart.style.fontSize = '32px';
+                document.body.appendChild(heart);
+
+                setTimeout(() => { heart.remove(); }, 3000);
+            }
+        }
+
+        // Animación Girasol
         const canvas = document.getElementById('flowerCanvas');
         const ctx = canvas.getContext('2d');
         let angle = 0;
@@ -283,39 +457,35 @@ Niña preciosa, ¡que tengas un bonito día!</div>
             ctx.translate(x, y);
             ctx.scale(scale, scale);
 
-            // Tallo
             ctx.beginPath();
             ctx.moveTo(0, 0);
-            ctx.lineTo(0, 150);
+            ctx.lineTo(0, 140);
             ctx.lineWidth = 6;
             ctx.strokeStyle = '#2e7d32';
             ctx.stroke();
 
-            // Hojas
             ctx.fillStyle = '#388e3c';
             ctx.beginPath();
-            ctx.ellipse(-20, 65, 20, 9, Math.PI / 4, 0, 2 * Math.PI);
+            ctx.ellipse(-20, 60, 18, 8, Math.PI / 4, 0, 2 * Math.PI);
             ctx.fill();
             ctx.beginPath();
-            ctx.ellipse(20, 78, 20, 9, -Math.PI / 4, 0, 2 * Math.PI);
+            ctx.ellipse(20, 72, 18, 8, -Math.PI / 4, 0, 2 * Math.PI);
             ctx.fill();
 
-            // Pétalos Amarillos
             const petals = 16;
             for (let i = 0; i < petals; i++) {
                 const petalAngle = (i * (2 * Math.PI / petals)) + Math.sin(angle) * 0.04;
                 ctx.save();
                 ctx.rotate(petalAngle);
                 ctx.beginPath();
-                ctx.ellipse(0, -48, 11, 35, 0, 0, 2 * Math.PI);
+                ctx.ellipse(0, -45, 10, 32, 0, 0, 2 * Math.PI);
                 ctx.fillStyle = '#ffd700';
                 ctx.fill();
                 ctx.restore();
             }
 
-            // Centro
             ctx.beginPath();
-            ctx.arc(0, 0, 28, 0, 2 * Math.PI);
+            ctx.arc(0, 0, 26, 0, 2 * Math.PI);
             ctx.fillStyle = '#4a2c11';
             ctx.fill();
 
@@ -324,11 +494,9 @@ Niña preciosa, ¡que tengas un bonito día!</div>
 
         function animateGarden() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            drawSingleSunflower(75, 130, 0.7);
-            drawSingleSunflower(245, 130, 0.7);
-            drawSingleSunflower(160, 100, 0.95);
-
+            drawSingleSunflower(75, 120, 0.65);
+            drawSingleSunflower(245, 120, 0.65);
+            drawSingleSunflower(160, 95, 0.9);
             angle += 0.025;
             requestAnimationFrame(animateGarden);
         }
@@ -337,3 +505,4 @@ Niña preciosa, ¡que tengas un bonito día!</div>
     </script>
 </body>
 </html>
+
