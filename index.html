@@ -25,25 +25,24 @@
             position: relative;
         }
 
-        /* Corazones Flotantes */
-        .floating-heart {
+        /* Lluvia de Flores y Pétalos Amarillos */
+        .falling-flower {
             position: fixed;
-            font-size: 20px;
+            top: -50px;
             user-select: none;
             pointer-events: none;
-            animation: floatUp 6s linear infinite;
+            animation: fall linear infinite;
             z-index: 1;
-            opacity: 0.7;
         }
 
-        @keyframes floatUp {
+        @keyframes fall {
             0% {
-                transform: translateY(100vh) rotate(0deg) scale(0.6);
+                transform: translateY(0) rotate(0deg) scale(0.8);
                 opacity: 1;
             }
             100% {
-                transform: translateY(-15vh) rotate(360deg) scale(1.1);
-                opacity: 0;
+                transform: translateY(105vh) rotate(360deg) scale(1.2);
+                opacity: 0.2;
             }
         }
 
@@ -96,7 +95,7 @@
             transform: scale(0.95);
         }
 
-        /* Contenedor Principal Adaptado a Móvil */
+        /* Contenedor Principal */
         .container {
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(10px);
@@ -105,7 +104,7 @@
             max-width: 480px;
             width: 100%;
             box-shadow: 0 10px 30px rgba(216, 27, 96, 0.2);
-            border: 1.5 solid #ffb6c1;
+            border: 1.5px solid #ffb6c1;
             text-align: center;
             z-index: 2;
             margin: 10px 0;
@@ -196,19 +195,21 @@
         <button id="start-btn" onclick="startExperience()">Abrir Detalle 🌻✨</button>
     </div>
 
-    <!-- Corazones Flotantes -->
-    <div class="floating-heart" style="left: 8%; animation-duration: 6s;">💖</div>
-    <div class="floating-heart" style="left: 25%; animation-duration: 8s; animation-delay: 1s;">🌻</div>
-    <div class="floating-heart" style="left: 45%; animation-duration: 7s; animation-delay: 2s;">🌸</div>
-    <div class="floating-heart" style="left: 68%; animation-duration: 6.5s; animation-delay: 0.5s;">✨</div>
-    <div class="floating-heart" style="left: 85%; animation-duration: 7.5s; animation-delay: 1.5s;">💖</div>
+    <!-- Abundancia de Flores Amarillas cayendo del cielo -->
+    <div class="falling-flower" style="left: 5%; animation-duration: 5s; font-size: 26px;">🌻</div>
+    <div class="falling-flower" style="left: 18%; animation-duration: 7s; animation-delay: 1s; font-size: 20px;">🌼</div>
+    <div class="falling-flower" style="left: 32%; animation-duration: 6s; animation-delay: 2s; font-size: 28px;">🌻</div>
+    <div class="falling-flower" style="left: 48%; animation-duration: 8s; animation-delay: 0.5s; font-size: 22px;">💛</div>
+    <div class="falling-flower" style="left: 62%; animation-duration: 5.5s; animation-delay: 1.5s; font-size: 30px;">🌻</div>
+    <div class="falling-flower" style="left: 78%; animation-duration: 6.8s; animation-delay: 2.5s; font-size: 24px;">🌼</div>
+    <div class="falling-flower" style="left: 90%; animation-duration: 7.2s; animation-delay: 0.8s; font-size: 26px;">🌻</div>
 
     <div class="container">
         <h1>Para Yanssy Daniela 🌻💖</h1>
 
-        <!-- Girasol Animado -->
+        <!-- Ramillete Abundante de Girasoles -->
         <div class="sunflower-box">
-            <canvas id="flowerCanvas" width="300" height="300"></canvas>
+            <canvas id="flowerCanvas" width="340" height="300"></canvas>
         </div>
 
         <!-- Galería de Fotos -->
@@ -265,21 +266,21 @@ Niña preciosa, ¡que tengas un bonito día!</div>
             }
         }
 
-        // Animación Canvas para el Girasol
+        // DIBUJO DE MÚLTIPLES GIRASOLES ANIMADOS (RAMILLETE)
         const canvas = document.getElementById('flowerCanvas');
         const ctx = canvas.getContext('2d');
         let angle = 0;
 
-        function drawSunflower() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2 - 15;
+        function drawSingleSunflower(x, y, scale, speedOffset) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.scale(scale, scale);
 
             // Tallo
             ctx.beginPath();
-            ctx.moveTo(centerX, centerY);
-            ctx.lineTo(centerX, centerY + 140);
-            ctx.lineWidth = 8;
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, 160);
+            ctx.lineWidth = 7;
             ctx.strokeStyle = '#2e7d32';
             ctx.lineCap = 'round';
             ctx.stroke();
@@ -287,22 +288,21 @@ Niña preciosa, ¡que tengas un bonito día!</div>
             // Hojas
             ctx.fillStyle = '#388e3c';
             ctx.beginPath();
-            ctx.ellipse(centerX - 25, centerY + 70, 25, 12, Math.PI / 4, 0, 2 * Math.PI);
+            ctx.ellipse(-22, 70, 22, 10, Math.PI / 4, 0, 2 * Math.PI);
             ctx.fill();
             ctx.beginPath();
-            ctx.ellipse(centerX + 25, centerY + 85, 25, 12, -Math.PI / 4, 0, 2 * Math.PI);
+            ctx.ellipse(22, 85, 22, 10, -Math.PI / 4, 0, 2 * Math.PI);
             ctx.fill();
 
-            // Pétalos
+            // Pétalos Amarillos
             const petals = 20;
             for (let i = 0; i < petals; i++) {
-                const petalAngle = (i * (2 * Math.PI / petals)) + Math.sin(angle) * 0.04;
+                const petalAngle = (i * (2 * Math.PI / petals)) + Math.sin(angle + speedOffset) * 0.05;
                 ctx.save();
-                ctx.translate(centerX, centerY);
                 ctx.rotate(petalAngle);
                 
                 ctx.beginPath();
-                ctx.ellipse(0, -58, 14, 42, 0, 0, 2 * Math.PI);
+                ctx.ellipse(0, -52, 12, 38, 0, 0, 2 * Math.PI);
                 ctx.fillStyle = '#ffd700';
                 ctx.shadowColor = '#ff9800';
                 ctx.shadowBlur = 6;
@@ -312,22 +312,38 @@ Niña preciosa, ¡que tengas un bonito día!</div>
 
             // Centro del Girasol
             ctx.beginPath();
-            ctx.arc(centerX, centerY, 35, 0, 2 * Math.PI);
+            ctx.arc(0, 0, 30, 0, 2 * Math.PI);
             ctx.fillStyle = '#4a2c11';
             ctx.shadowColor = 'transparent';
             ctx.fill();
 
             ctx.beginPath();
-            ctx.arc(centerX, centerY, 28, 0, 2 * Math.PI);
+            ctx.arc(0, 0, 24, 0, 2 * Math.PI);
             ctx.strokeStyle = '#6d4c41';
             ctx.lineWidth = 2;
             ctx.stroke();
-            
-            angle += 0.03;
-            requestAnimationFrame(drawSunflower);
+
+            ctx.restore();
         }
 
-        drawSunflower();
+        function animateGarden() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Girasol Izquierda (Atrás)
+            drawSingleSunflower(80, 140, 0.75, 0);
+
+            // Girasol Derecha (Atrás)
+            drawSingleSunflower(260, 140, 0.75, 1);
+
+            // Girasol Principal (Centro)
+            drawSingleSunflower(170, 110, 1.0, 2);
+
+            angle += 0.03;
+            requestAnimationFrame(animateGarden);
+        }
+
+        animateGarden();
     </script>
 </body>
 </html>
+
